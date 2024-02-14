@@ -28,26 +28,32 @@ def prepare_data():
 
         notes_to_parse = None
 
-        # try: # file has instrument parts
-        s2 = instrument.partitionByInstrument(midi)
-        notes_to_parse = s2.parts[0].recurse() 
-        # except: # file has notes in a flat structure
-        #     notes_to_parse = midi.flat.notes
+        # Need to understand this
+        try: # file has instrument parts
+            s2 = instrument.partitionByInstrument(midi)
+            notes_to_parse = s2.parts[0].recurse() 
+        except: # file has notes in a flat structure
+            notes_to_parse = midi.flat.notes
 
+        # Appending the chords to the notes list. May need to rename
         for element in notes_to_parse:
-            # if isinstance(element, note.Note):
-            #     notes.append(str(element.pitch))
+            if isinstance(element, note.Note):
+                notes.append(str(element.pitch))
             if isinstance(element, chord.Chord):
                 notes.append('.'.join(str(n) for n in element.normalOrder))
-            # elif isinstance(element, note.Rest):
-            #     notes.append('r')
+                # print('.'.join(str(n) for n in element.normalOrder)) # Converts chord array to string
+                print(element.normalOrder) # Array of notes in chord
+                print(element.commonName) # Gives gives chord name
+            elif isinstance(element, note.Rest):
+                notes.append('r')
 
+    # Unsure what this is used for.
+    with open('data/notes', 'wb') as filepath:
+        pickle.dump(notes, filepath)
+                
+    # print(notes)
+    # print(len(notes))
 
-    # with open('data/notes', 'wb') as filepath:
-    #     pickle.dump(notes, filepath)
-    print(notes)
     return notes
 
-    pass 
-
-prepare_data()
+prepare_data() 
