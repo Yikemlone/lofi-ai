@@ -2,7 +2,7 @@
 import glob
 import pickle
 import numpy
-from music21 import converter, instrument, note, chord, tablature
+from music21 import converter, instrument, note, chord, tablature, key
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import Dropout
@@ -19,38 +19,71 @@ def prepare_data():
     """ Parses all chords from MIDI files and writes them to a binary file"""
     chords = []
 
+    # for file in glob.glob("lofi_ai/midi_songs/*.mid"):
+        # Working Code
+        ####################################################
+        # midi = converter.parse(file)
+        # print("Parsing %s" % file)
+        # chord_to_parse = None
+
+        # s2 = instrument.partitionByInstrument(midi)
+        # chord_to_parse = s2.parts[0].recurse() 
+        
+        # print(midi.analyze('key'))
+
+        # # Appending the chords to the notes list.
+        # for element in chord_to_parse:
+        #     if isinstance(element, chord.Chord):
+        #         chords.append('.'.join(str(n) for n in element.normalOrder))
+        ######################################################################
+
+    #     midi = converter.parse(file)
+    #     print("Parsing %s" % file)
+    #     chord_to_parse = None
+
+    #     s2 = instrument.partitionByInstrument(midi)
+    #     chord_to_parse = s2.parts[0].recurse() 
+        
+    #     song_key = str(midi.analyze('key'))
+
+    #     # Append the key vector to the data list
+    #     data.append(('key', song_key))
+
+    #     # Appending the chords to the notes list.
+    #     for element in chord_to_parse:
+    #         if isinstance(element, chord.Chord):
+    #             chord_repr = '.'.join(str(n) for n in element.normalOrder)
+    #             data.append(('chord', chord_repr))
+
+    # # Write the notes to binary file
+    # with open('lofi_ai/data/chords.bin', 'wb') as file:
+    #     file.write(pickle.dumps(chords))
+        
+    notes = []
+
     for file in glob.glob("lofi_ai/midi_songs/*.mid"):
         midi = converter.parse(file)
 
         print("Parsing %s" % file)
 
-        chord_to_parse = None
+        notes_to_parse = None
 
-        s2 = instrument.partitionByInstrument(midi)
-        chord_to_parse = s2.parts[0].recurse() 
-        fret_board = tablature.ChordWithFretBoard('E')
+        try: # file has instrument parts
+            s2 = instrument.partitionByInstrument(midi)
+            notes_to_parse = s2.parts[0].recurse() 
+        except: # file has notes in a flat structure
+            notes_to_parse = midi.flat.notes
 
-        # Change instrument to guitar
-        for element in chord_to_parse:
+        for element in notes_to_parse:
             if isinstance(element, note.Note):
-                print(element.nameWithOctave)
+                notes.append(str(element.pitch))
             elif isinstance(element, chord.Chord):
-                print(element.orderedPitchClasses)
-                print(element.normalOrder)
-                print("Chord:", ' '.join(n.nameWithOctave for n in element.notes))
+                notes.append('.'.join(str(n) for n in element.normalOrder))
+            elif isinstance(element, note.Rest):
+                notes.append('r')
+    with open('lofi_ai/data/notes', 'wb') as filepath:
+        pickle.dump(notes, filepath)
 
-        # Appending the chords to the notes list.
-        for element in chord_to_parse:
-            if isinstance(element, chord.Chord):
-                chords.append('.'.join(str(n) for n in element.normalOrder))
-
-        # chord2 = [int(note) for note in pattern.split('.')]
-        # c = chord.Chord(chord2)
-        
-    # Write the notes to binary file
-    with open('lofi_ai/data/chords.bin', 'wb') as file:
-        file.write(pickle.dumps(chords))
-                
     return chords
 
 def prepare_sequences(chords, number_of_chords):
@@ -82,6 +115,11 @@ def prepare_sequences(chords, number_of_chords):
     # Normalizes the input to be between 0 and 1, so that it can be easier to train with
     network_input = network_input / float(number_of_chords)
 
+    #######################################################
+    # Create a one-hot encoded vector for the key
+    # key_vector = [1 if k == song_key else 0 for k in keys]
+    #######################################################
+
     # Pads 0s in the array
     network_output = to_categorical(network_output) 
 
@@ -95,24 +133,25 @@ def create_network(network_input, number_of_chords):
     model.add(Bidirectional(LSTM(
         512, # Number of units/nodes per layer
         input_shape=(network_input.shape[1], network_input.shape[2]), # Shape of the input data
-        recurrent_dropout=0.3, # 30% of the recurrent connections will be dropped to prevent overfitting
         return_sequences=True # Return output to the next layer
     )))
 
     # Add another bidirectional LSTM layer with 512 units 
-    model.add(Bidirectional(LSTM(512, return_sequences=True, recurrent_dropout=0.3)))
+    model.add(Bidirectional(LSTM(512, return_sequences=True)))
 
     # Add a bidirectional LSTM layer with 512 units
     # - This layer does not have return_sequences=True, so it will output a single vector
     model.add(Bidirectional(LSTM(512)))
     model.add(BatchNorm())  # Add a batch normalization layer
     model.add(Dropout(0.3))  # Add a dropout layer with a dropout rate of 30%
+
     model.add(Dense(256))  # Add a fully connected dense layer with 256 units
-    model.add(Activation('relu'))  # Add a ReLU activation function
     model.add(BatchNorm())  # Add another batch normalization layer
     model.add(Dropout(0.3))  # Add another dropout layer with a dropout rate of 30%
+
     model.add(Dense(number_of_chords))  # Add a fully connected dense layer with n_vocab units
     model.add(Activation('softmax'))  # Add a softmax activation function
+
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop')  # Compile the model with categorical crossentropy loss and rmsprop optimizer
 
     return model
@@ -149,3 +188,57 @@ def train_network():
 if __name__ == "__main__":
     train_network()
     print("Training complete")
+
+
+
+#     def prepare_data():
+#     """ Parses all chords from MIDI files and writes them to a binary file"""
+#     chords = []
+#     keys = []
+#     data = []
+
+#     for file in glob.glob("lofi_ai/midi_songs/*.mid"):
+#         # Parse MIDI file and extract chords and key
+#         # ...
+#         for element in chord_to_parse:
+#             if isinstance(element, chord.Chord):
+#                 chord_repr = '.'.join(str(n) for n in element.normalOrder)
+#                 chords.append(chord_repr)
+#                 keys.append(song_key)
+
+#     # Write the chords and keys to binary files
+#     with open('lofi_ai/data/chords.bin', 'wb') as file:
+#         file.write(pickle.dumps(chords))
+#     with open('lofi_ai/data/keys.bin', 'wb') as file:
+#         file.write(pickle.dumps(keys))
+
+#     return chords, keys
+
+# def prepare_sequences(chords, keys, number_of_chords):
+#     """ Prepare the sequences used by the Neural Network """
+#     sequence_length = 100
+
+#     chords_sorted = sorted(set(item for item in chords))
+#     keys_sorted = sorted(set(item for item in keys))
+
+#     chord_to_int = dict((chord, number) for number, chord in enumerate(chords_sorted)) 
+#     key_to_int = dict((key, number) for number, key in enumerate(keys_sorted)) 
+
+#     network_input = [] # What I am training on
+#     network_output = [] # What I am predicting
+#     key_input = []
+
+#     for i in range(0, len(chords) - sequence_length, 1):
+#         sequence_in = chords[i:i + sequence_length]
+#         sequence_out = chords[i + sequence_length]
+#         network_input.append([chord_to_int[char] for char in sequence_in])
+#         network_output.append(chord_to_int[sequence_out])
+#         key_input.append(key_to_int[keys[i]])  # Append the corresponding key index
+
+#     n_patterns = len(network_input)
+
+#     network_input = numpy.reshape(network_input, (n_patterns, sequence_length, 1))
+#     network_input = network_input / float(number_of_chords)
+#     network_output = to_categorical(network_output) 
+
+#     return (network_input, key_input, network_output)
