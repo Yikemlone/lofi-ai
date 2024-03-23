@@ -3,13 +3,20 @@ import Chord from './Chord';
 import axios from 'axios'
 import './index.css'
 
+interface ChordsJSON {
+  chord: string,
+  notes: string,
+  quality: string,
+  root: string
+}
+
 function App() {
-  const [chords, setChords] = useState([]);
+  const [chords, setChords] = useState<ChordsJSON[]>([]);
   const [chordQty, setChordQty] = useState(1);
   const [chordKey, setChordKey] = useState('E');
 
   const getChords = async () => {
-    axios.get(`http://localhost:5000/predict?chord_qty=${chordQty}&chord_key=${chordKey}`)
+    axios.get<ChordsJSON[]>(`http://localhost:5000/predict?chord_qty=${chordQty}&chord_key=${chordKey}`)
     .then((response) => {
       setChords(response.data)
     })
@@ -48,8 +55,9 @@ function App() {
       <button className='btn btn-primary mt-3' onClick={getChords}>Get chords</button>
 
       {chords.length === 0 ? <p></p> : ''}
-      {chords.map((chord, index) => (
-        <Chord key={index} ChordDetails={chord} />
+      {chords.map((chord: ChordsJSON, index: number) => (
+        <Chord key={index} Chord={chord.chord} Root={chord.root} Quality={chord.quality} 
+          Notes={chord.notes} />
       ))}
     </div>
   )
