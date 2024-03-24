@@ -11,61 +11,19 @@ from keras.layers import Activation
 from keras.layers import BatchNormalization as BatchNorm
 from keras.utils import to_categorical
 from keras.callbacks import ModelCheckpoint
-import tensorflow as tf
 from keras.layers import Bidirectional
 
 # Prepare data
 def prepare_data():
-    """ Parses all chords from MIDI files and writes them to a binary file"""
+    """ Parses all chords from MIDI files and writes them to a binary file"""    
     chords = []
-
-    # for file in glob.glob("lofi_ai/midi_songs/*.mid"):
-        # Working Code
-        ####################################################
-        # midi = converter.parse(file)
-        # print("Parsing %s" % file)
-        # chord_to_parse = None
-
-        # s2 = instrument.partitionByInstrument(midi)
-        # chord_to_parse = s2.parts[0].recurse() 
-        
-        # print(midi.analyze('key'))
-
-        # # Appending the chords to the notes list.
-        # for element in chord_to_parse:
-        #     if isinstance(element, chord.Chord):
-        #         chords.append('.'.join(str(n) for n in element.normalOrder))
-        ######################################################################
-
-    #     midi = converter.parse(file)
-    #     print("Parsing %s" % file)
-    #     chord_to_parse = None
-
-    #     s2 = instrument.partitionByInstrument(midi)
-    #     chord_to_parse = s2.parts[0].recurse() 
-        
-    #     song_key = str(midi.analyze('key'))
-
-    #     # Append the key vector to the data list
-    #     data.append(('key', song_key))
-
-    #     # Appending the chords to the notes list.
-    #     for element in chord_to_parse:
-    #         if isinstance(element, chord.Chord):
-    #             chord_repr = '.'.join(str(n) for n in element.normalOrder)
-    #             data.append(('chord', chord_repr))
-
-    # # Write the notes to binary file
-    # with open('lofi_ai/data/chords.bin', 'wb') as file:
-    #     file.write(pickle.dumps(chords))
-        
-    notes = []
 
     for file in glob.glob("lofi_ai/midi_songs/*.mid"):
         midi = converter.parse(file)
 
         print("Parsing %s" % file)
 
+        chords.append(str(midi.analyze('key')))
         notes_to_parse = None
 
         try: # file has instrument parts
@@ -76,19 +34,18 @@ def prepare_data():
 
         for element in notes_to_parse:
             if isinstance(element, note.Note):
-                notes.append(str(element.pitch))
+                chords.append(str(element.pitch))
             elif isinstance(element, chord.Chord):
-                notes.append('.'.join(str(n) for n in element.normalOrder))
-            elif isinstance(element, note.Rest):
-                notes.append('r')
+                chords.append(' '.join(n.nameWithOctave for n in element.notes))
+
     with open('lofi_ai/data/notes', 'wb') as filepath:
-        pickle.dump(notes, filepath)
+        pickle.dump(chords, filepath)
 
     return chords
 
 def prepare_sequences(chords, number_of_chords):
     """ Prepare the sequences used by the Neural Network """
-    sequence_length = 100
+    sequence_length = 50
 
     # Sort all the unique chords
     chords_sorted = sorted(set(item for item in chords))
@@ -115,13 +72,13 @@ def prepare_sequences(chords, number_of_chords):
     # Normalizes the input to be between 0 and 1, so that it can be easier to train with
     network_input = network_input / float(number_of_chords)
 
+    # Pads 0s in the array
+    network_output = to_categorical(network_output) 
+
     #######################################################
     # Create a one-hot encoded vector for the key
     # key_vector = [1 if k == song_key else 0 for k in keys]
     #######################################################
-
-    # Pads 0s in the array
-    network_output = to_categorical(network_output) 
 
     return (network_input, network_output)
 
@@ -190,7 +147,8 @@ if __name__ == "__main__":
     print("Training complete")
 
 
-
+############# ATTEMPTING TO SEQUNCE KEY ###################
+###########################################################
 #     def prepare_data():
 #     """ Parses all chords from MIDI files and writes them to a binary file"""
 #     chords = []
