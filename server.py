@@ -11,6 +11,7 @@ ai_model.set_up()
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     chord_qty = int(request.args.get('chord_qty'))
-    scale_key = request.args.get('scale_key')
-    chords = ai_model.generate_chords(chord_qty) # Add scale_key as an argument later
-    return jsonify(chords)
+    user_scale = request.args.get('user_scale')
+    chords = ai_model.generate_chords(chord_qty, user_scale)
+    detailed_chords = ai_model.prepare_chords(chords)
+    return jsonify(detailed_chords)

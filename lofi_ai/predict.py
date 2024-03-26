@@ -2,12 +2,20 @@ import pickle
 import numpy
 from music21 import instrument, note, stream, chord
 from keras.models import Sequential
-from keras.layers import Dense
-from keras.layers import Dropout
-from keras.layers import LSTM
-from keras.layers import BatchNormalization as BatchNorm
-from keras.layers import Activation
-from keras.layers import Bidirectional
+from keras.layers import Dense, Activation, LSTM, Dropout, Bidirectional, BatchNormalization as BatchNorm
+
+SCALES = {
+    'e_major_scale': ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#', 'E'],
+    'c_major_scale': ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C'],
+    'g_major_scale': ['G', 'A', 'B', 'C', 'D', 'E', 'F#', 'G'],
+    'd_major_scale': ['D', 'E', 'F#', 'G', 'A', 'B', 'C#', 'D'],
+    'a_major_scale': ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#', 'A'],
+    'e_minor_scale': ['E', 'F#', 'G', 'A', 'B', 'C', 'D', 'E'],
+    'c_minor_scale': ['C', 'D', 'E-', 'F', 'G', 'A-', 'B-', 'C'],
+    'g_minor_scale': ['G', 'A', 'B-', 'C', 'D', 'E-', 'F', 'G'],
+    'd_minor_scale': ['D', 'E', 'F', 'G', 'A', 'B-', 'C', 'D'],
+    'a_minor_scale': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'A']
+}
 
 class ChordGenerator:
 
@@ -33,7 +41,7 @@ class ChordGenerator:
 
     def prepare_sequences(self):
         """ Prepare the sequences used by the Neural Network """
-        sequence_length = 100
+        sequence_length = 50
 
         # Create a dictionary to match chords to ints   
         chord_to_int = dict((note, number) for number, note in enumerate(self.chord_names))
@@ -54,15 +62,16 @@ class ChordGenerator:
         self.model.add(Bidirectional(LSTM(
             512,
             input_shape=(self.normalized_input.shape[1], self.normalized_input.shape[2]),
-            recurrent_dropout=0.3,
             return_sequences=True
         )))
-        self.model.add(Bidirectional(LSTM(512, return_sequences=True, recurrent_dropout=0.3)))
+        self.model.add(Bidirectional(LSTM(
+            512, 
+            return_sequences=True, 
+        )))
         self.model.add(Bidirectional(LSTM(512)))
         self.model.add(BatchNorm())
         self.model.add(Dropout(0.3))
         self.model.add(Dense(256))
-        self.model.add(Activation('relu'))
         self.model.add(BatchNorm())
         self.model.add(Dropout(0.3))
         self.model.add(Dense(self.number_of_chords))
@@ -70,9 +79,9 @@ class ChordGenerator:
         self.model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 
         self.model.predict(numpy.random.random((1, self.normalized_input.shape[1], self.normalized_input.shape[2])))
-        self.model.load_weights('lofi_ai/weights/weights-improvement-396-0.0022-bigger.hdf5')
+        self.model.load_weights('lofi_ai/weights/weights-improvement-400-0.0005-bigger.hdf5')
 
-    def generate_chords(self, user_requested_qty):
+    def generate_chords(self, user_chord_qty, user_scale):
         """ Generate notes from the neural network based on a sequence of notes """
         # Pick a random sequence from the input as a starting point for the prediction
         start = numpy.random.randint(0, len(self.network_input)-1)
@@ -80,32 +89,29 @@ class ChordGenerator:
         int_to_note = dict((number, note) for number, note in enumerate(self.chord_names))
         pattern = self.network_input[start]
 
-        prediction_output = []
+        chords = []
 
-        for _ in range(user_requested_qty):
+        while len(chords) < user_chord_qty:
+            # Get chord prediction
             prediction_input = numpy.reshape(pattern, (1, len(pattern), 1))
             prediction_input = prediction_input / float(self.number_of_chords)
             prediction = self.model.predict(prediction_input, verbose=0)
-            index = numpy.argmax(prediction)
-            result = int_to_note[index]
-            prediction_output.append(result)
+            
+            index = numpy.argmax(prediction) # Get the index of the highest probability
+            result = int_to_note[index] # Get the chord from the index
+            parsed_chord = chord.Chord(result) # Parse the chord
+ 
+            # Get chord's notes and remove pitch from the chord
+            all_notes = [n.nameWithOctave for n in parsed_chord.notes] 
+            all_notes = [note[:-1] for note in all_notes]
+            
+            if all(note in SCALES[user_scale] for note in all_notes):
+                chords.append(parsed_chord)
+
+            # Shift the pattern over by one
             pattern.append(index)
             pattern = pattern[1:len(pattern)]
         
-        chords = []
-
-        for pattern in prediction_output:
-            chord_data = {}
-            chord_string = [int(note) for note in pattern.split('.')]
-            parsed_chord = chord.Chord(chord_string)
-
-            chord_data['chord'] = parsed_chord.pitchedCommonName
-            chord_data['notes'] = ' '.join(n.nameWithOctave for n in parsed_chord.notes)
-            chord_data['root'] = parsed_chord.root().nameWithOctave
-            chord_data['quality'] = parsed_chord.quality
-
-            chords.append(chord_data)
-
         return chords
     
     def create_midi(self, prediction_output):
@@ -136,6 +142,18 @@ class ChordGenerator:
 
         midi_stream.write('midi', fp='test_output.mid')
 
+    def prepare_chords(self, chords):
+        """Prepare the chords with extra details for JSON serialization"""
+        detailed_chords = []
+        for chord in chords:
+            chord_data = {}
+            chord_data['chord'] = chord.pitchedCommonName
+            chord_data['notes'] = ' '.join(n.nameWithOctave for n in chord.notes)
+            chord_data['root'] = chord.root().nameWithOctave
+            chord_data['quality'] = chord.quality
+            detailed_chords.append(chord_data)
+        return detailed_chords
+
     def set_up(self):
         self.load_notes()
         self.prepare_sequences()
@@ -144,4 +162,6 @@ class ChordGenerator:
 if __name__ == '__main__':
     chord_generator = ChordGenerator()
     chord_generator.set_up()
-    chord_generator.generate_chords(4)
+    chords = chord_generator.generate_chords(4, 'e_major_scale')
+    detailed_chords = chord_generator.prepare_chords(chords)
+    print(detailed_chords)  
