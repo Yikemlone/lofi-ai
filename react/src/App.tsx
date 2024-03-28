@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Chord from './Chord';
 import axios from 'axios'
 import './index.css'
+import MidiPlayer from 'react-midi-player'
 
 interface ChordsJSON {
   chord: string,
@@ -39,6 +40,7 @@ function App() {
 
     <div className="d-flex flex-column mt-0">
       <label htmlFor="chord-qty" className="form-label">Chord Quantity: {chordQty} </label>
+
       <input type="range" value={chordQty} className="form-range" min="1" max="16" step="1" 
         id="chord-qty" onChange={(e) => handleChordQtyChange(e)}></input>
 
@@ -60,6 +62,7 @@ function App() {
       <button className='btn btn-primary mt-3' onClick={getChords}>Get chords</button>
 
       {chords.length === 0 ? <p></p> : ''}
+      {chords.length === 0 ? "" : <MidiPlayer src={"MIDI/all_chords.mid"}/> }
       {chords.map((chord: ChordsJSON, index: number) => (
         <Chord key={index} Chord={chord.chord} Root={chord.root} Quality={chord.quality} 
           Notes={chord.notes} />
