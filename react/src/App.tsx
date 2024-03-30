@@ -14,7 +14,7 @@ interface ChordsJSON {
 
 function App() {
   const [chords, setChords] = useState<ChordsJSON[]>([]);
-  const [chordQty, setChordQty] = useState(1);
+  const [chordQty, setChordQty] = useState(4);
   const [chordKey, setChordKey] = useState('e_major_scale');
   const [isBusy, setIsBusy] = useState(false);
 
@@ -44,15 +44,17 @@ function App() {
     <>
       <Nav/>
 
-      <div className="d-flex flex-column mt-0 border mx-auto" style={{width: '50%'}}>
-        <label htmlFor="chord-qty" className="form-label">Chord Quantity: <span>{chordQty}</span></label>
+      {/* ################################################################################# */}
 
-        <input type="range" value={chordQty} className="form-range" min="1" max="16" step="1" 
-          id="chord-qty" onChange={(e) => handleChordQtyChange(e)}>
+      <div className="card shadow rounded mx-auto px-5 py-5" style={{width: '60%'}}>
+
+        <label htmlFor="chord-qty" className="form-label my-2">Chord Quantity: {chordQty}</label>
+        <input type="range" value={chordQty} className="form-range my-2" min="1" max="16" step="1" 
+          id="chord-qty" onChange={(e) => handleChordQtyChange(e)}  >
         </input>
 
-        <label htmlFor="chord-key" className="form-label">Select Chord Scale</label>
-        <select className="form-select" id="chord-key"
+        <label htmlFor="chord-key" className="form-label my-2">Select Chord Scale</label>
+        <select className="form-select my-2" id="chord-key"
           aria-label="Default select example" onChange={(e) => handleChordKeyChange(e)}>
             <option value={"e_major_scale"}>E Major Scale</option>
             <option value="a_major_scale">A Major Scale</option>
@@ -63,36 +65,50 @@ function App() {
             <option value="a_minor_scale">A Minor Scale</option>
             <option value="d_minor_scale">D Minor Scale</option>
             <option value="g_minor_scale">G Minor Scale</option>
-            <option value="c_minor_scale">C Minor Scale</option>
+            <option value="c_minor_scale">C Minor Scale</option>  
         </select>
 
-        <div className="d-flex justify-content-center">
-          <button className='btn btn-light mt-3' style={{ width: '20%' }} onClick={getChords} disabled={isBusy}>Get chords</button>
+        <div className="mx-auto" style={{width: "500px"}}>
+          <img src='public/g-major-scale.png' className="mx-auto img-fluid w-100"/>
         </div>
-        {isBusy ? <p className='mt-5 mx-auto'>Generating chords...</p> : ""}
+
+        <div className="d-flex justify-content-center">
+          <button className='btn btn-none border mt-5 px-5'onClick={getChords} disabled={isBusy}>Get chords</button>
+        </div>
         
       </div>
 
-      <div className='mt-5 border'>
-        {/* Header */}
-        {chords.length === 0 ? <p></p> : <h1>Chords generated using {chordKey.replaceAll("_", " ")}.</h1>}
+      {/* ################################################################################# */}
 
-        {/* MIDI Player */}
-        {chords.length === 0 ? "" : 
-        <>
-          <p>
-            Listen to all chords:
-          </p>
-          <MidiPlayer src={"MIDI/all_chords.mid"}/>
-        </>
-        }
+      {isBusy ? <p className='mt-5 mx-auto'>Generating chords...</p> : ""}
 
-        {/* Chords */}
-        {chords.map((chord: ChordsJSON, index: number) => (
-          <Chord key={index} Chord={chord.chord} Root={chord.root} Quality={chord.quality} 
-            Notes={chord.notes} />
-        ))}
-      </div>
+      {/* ################################################################################# */}
+
+      { chords.length === 0 ? '' :  
+        <div className='card shadow rounded px-5 py-5 mx-5 my-5'>
+
+          {/* Header */}
+          {chords.length === 0 ? '' : <h1 className='mb-5'>Chords generated</h1>}
+
+          {/* MIDI Player */}
+          {chords.length === 0 ? "" : 
+          <>
+            <h4>
+              All Chords:
+              <span className='mx-3'><MidiPlayer src={"MIDI/all_chords.mid"}/></span>
+            </h4>
+          </>
+          }
+
+          <div className='row'>
+            {/* Chords */}
+            {chords.map((chord: ChordsJSON, index: number) => (
+              <Chord key={index} Chord={chord.chord} Root={chord.root} Quality={chord.quality} 
+                Notes={chord.notes} />
+            ))}
+          </div>
+        </div>
+      }
     </>
   )
 }

@@ -4,12 +4,7 @@ body {
   background-image: linear-gradient(#FDB0C0, white);
   background-repeat: no-repeat;
   background-size: 200% 150%;
-}
-
-/* Custom fonts */
-@font-face {
-  font-family: 'LofiFont-1';
-  src: url('assets/Lofi-Lifestyle-Demo.ttf');
+  font-family: 'LofiFont-2', sans-serif;
 }
 
 @font-face {
@@ -17,16 +12,23 @@ body {
   src: url('assets/LifeSavers-Bold.ttf');
 }
 
-h1 {
-  font-size: 50px;
+input[type=range]::-webkit-slider-runnable-track {
+  background: #ddd;
+  border: none;
+  border-radius: 3px;
 }
 
-div {
-  font-family: 'LofiFont-2', sans-serif;
-  font-size: 35px;
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  border-radius: 50%;
+  background: #FDB0C0;
 }
 
-span {
-  font-family: 'LofiFont-2', sans-serif;
-  font-size: 25px;
+input[type=range]:focus {
+  outline: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #ccc;
 }

@@ -11,9 +11,11 @@ function Chord({ Chord, Notes, Quality, Root } : Props) {
   const PATH : string= "MIDI/";
   const formatted_midi : string = PATH + Chord.replaceAll(' ', '_') + ".mid";
 
+
   return (
     <>
-      <div className='card mt-3 ml-5 shadow p-3 mb-5 rounded' style={{backgroundColor: "#FDDCE2"}}>      
+      <div className='col'>
+      <div className='card mt-3 mx-1 shadow p-3 my-2 rounded' style={{backgroundColor: "#FEEDF0"}}>      
           <div className="card-body">
               <h4 className="card-title"><span>{ Quality === "other" ? "" : Quality } { Root } </span></h4>
               <p className="card-text"> Full Name: { Chord } </p>
@@ -22,6 +24,7 @@ function Chord({ Chord, Notes, Quality, Root } : Props) {
               <a className="btn btn-primary">More Details</a>
           </div>
       </div>  
+      </div>
     </>
   )
 }

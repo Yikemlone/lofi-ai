@@ -122,7 +122,7 @@ class ChordGenerator:
             from the notes """
         offset = 0
         output_chords = []
-        chord_durration = 'half'
+        chord_durration = 'whole'
         
         for c in chords:
             c.duration.type = chord_durration
@@ -141,7 +141,7 @@ class ChordGenerator:
             new_chord = chord.Chord(c, type=chord_durration)
             new_chord.offset = offset
             all_chords_output.append(new_chord)
-            offset += 2 
+            offset += 4
 
         # Create all the chords in a single MIDI file
         all_chords_output.insert(0, instrument.ElectricGuitar())  
