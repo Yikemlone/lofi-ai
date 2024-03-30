@@ -11,6 +11,7 @@ ai_model.set_up()
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
+    print('Predicting chords...')
     # Get user inputs
     chord_qty = int(request.args.get('chord_qty'))
     user_scale = request.args.get('user_scale')

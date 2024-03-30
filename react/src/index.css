@@ -1,7 +1,32 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
 body {
-  padding: 20px;
-  margin: 50px;
-  margin: auto auto;
+  background-image: linear-gradient(#FDB0C0, white);
+  background-repeat: no-repeat;
+  background-size: 200% 150%;
+}
+
+/* Custom fonts */
+@font-face {
+  font-family: 'LofiFont-1';
+  src: url('assets/Lofi-Lifestyle-Demo.ttf');
+}
+
+@font-face {
+  font-family: 'LofiFont-2';
+  src: url('assets/LifeSavers-Bold.ttf');
+}
+
+h1 {
+  font-size: 50px;
+}
+
+div {
+  font-family: 'LofiFont-2', sans-serif;
+  font-size: 35px;
+}
+
+span {
+  font-family: 'LofiFont-2', sans-serif;
+  font-size: 25px;
 }

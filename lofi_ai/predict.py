@@ -17,12 +17,6 @@ SCALES = {
     'a_minor_scale': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'A']
 }
 
-NOTE_TYPE = {
-    "16th": 0.25,
-    "eighth": 0.5,
-    "quarter": 1,
-    "half": 2
-}
 
 class ChordGenerator:
 
@@ -92,6 +86,7 @@ class ChordGenerator:
         pattern = self.network_input[start]
 
         chords = []
+        total_tries = 0
 
         while len(chords) < user_chord_qty:
             # Get chord prediction
@@ -113,6 +108,12 @@ class ChordGenerator:
             # Shift the pattern over by one
             pattern.append(index)
             pattern = pattern[1:len(pattern)]
+
+            total_tries += 1
+            
+            # Prevent infinite loop if stuck
+            if total_tries > 200:
+                break
         
         return chords
     
@@ -140,10 +141,9 @@ class ChordGenerator:
             new_chord = chord.Chord(c, type=chord_durration)
             new_chord.offset = offset
             all_chords_output.append(new_chord)
-            offset += NOTE_TYPE[chord_durration]
+            offset += 2 
 
         # Create all the chords in a single MIDI file
-        # Name the file the roots of all the chords.
         all_chords_output.insert(0, instrument.ElectricGuitar())  
         midi_stream = stream.Stream(all_chords_output)
         midi_stream.write('midi', fp='react/public/MIDI/all_chords.mid')
