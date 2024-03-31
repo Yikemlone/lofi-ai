@@ -9,8 +9,7 @@ interface Props {
 
 function Chord({ Chord, Notes, Quality, Root } : Props) {
   const PATH : string= "MIDI/";
-  const formatted_midi : string = PATH + Chord.replaceAll(' ', '_') + ".mid";
-
+  const formatted_midi : string = PATH + Chord.replace(/ /g, '_') + ".mid";
 
   return (
     <>
