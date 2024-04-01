@@ -75,7 +75,7 @@ class ChordGenerator:
         self.model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 
         self.model.predict(numpy.random.random((1, self.normalized_input.shape[1], self.normalized_input.shape[2])))
-        self.model.load_weights('lofi_ai/weights/weights-improvement-400-0.0005-bigger.hdf5')
+        self.model.load_weights('lofi_ai/weights/weights-400-0.0005.hdf5')
 
     def generate_chords(self, user_chord_qty, user_scale):
         """ Generate notes from the neural network based on a sequence of notes """

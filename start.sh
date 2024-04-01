@@ -1,2 +1,2 @@
 #!/bin/bash
-exec gunicorn -b 0.0.0.0:5000 server:server
+gunicorn -b :5000 server:app
