@@ -13,8 +13,11 @@ RUN pip install -r requirements.txt
 # Copy the rest of the application code into the container
 COPY . .
 
+# Print the directory structure
+RUN ls -R
+
 # Expose the port that your Flask app listens on
 EXPOSE 5000
 
 # Start the Flask app
-CMD ["python", "server.py"]
+CMD ["flask", "--app", "server", "run"]
