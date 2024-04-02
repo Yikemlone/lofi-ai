@@ -132,8 +132,8 @@ class ChordGenerator:
         for c in output_chords:      
             formatted_chord_name = c.pitchedCommonName.replace(' ', '_')
             midi_stream = stream.Stream([instrument.ElectricGuitar(), c])
-            midi_stream.write('midi', fp=f'react/public/MIDI/{formatted_chord_name}.mid')
-            midi_stream.write('musicxml', fp=f'react/public/MIDI-XML/{formatted_chord_name}.xml')
+            midi_stream.write('midi', fp=f'react/build/MIDI/{formatted_chord_name}.mid')
+            midi_stream.write('musicxml', fp=f'react/build/MIDI-XML/{formatted_chord_name}.xml')
         
         all_chords_output = []
 

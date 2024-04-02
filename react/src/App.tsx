@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Chord from './Chord';
 import axios from 'axios'
 import './index.css'
-import MidiPlayer from 'react-midi-player'
+// import MidiPlayer from 'react-midi-player'
 import Nav from './Nav';
 
 interface ChordsJSON {
@@ -20,7 +20,7 @@ function App() {
 
   const getChords = async () => {
     setIsBusy(true);
-    axios.get<ChordsJSON[]>(`http://localhost:5000/api/predict?chord_qty=${chordQty}&user_scale=${chordKey}`)
+    axios.get<ChordsJSON[]>(`/api/predict?chord_qty=${chordQty}&user_scale=${chordKey}`)
     .then((response) => {
       setChords(response.data)
       setIsBusy(false);
@@ -69,7 +69,7 @@ function App() {
         </select>
 
         <div className="mx-auto" style={{width: "500px"}}>
-          <img src='public/g-major-scale.png' className="mx-auto img-fluid w-100"/>
+          <img src='g-major-scale.png' className="mx-auto img-fluid w-100"/>
         </div>
 
         <div className="d-flex justify-content-center">
@@ -78,9 +78,7 @@ function App() {
         
       </div>
 
-      {/* ################################################################################# */}
-
-      {isBusy ? <p className='mt-5 mx-auto'>Generating chords...</p> : ""}
+      {isBusy ? <div className='mx-auto px-5 py-5 text-center'><h2>Generating chords...</h2></div>: ""}
 
       {/* ################################################################################# */}
 
@@ -90,15 +88,14 @@ function App() {
           {/* Header */}
           {chords.length === 0 ? '' : <h1 className='mb-5'>Chords generated</h1>}
 
-          {/* MIDI Player */}
-          {chords.length === 0 ? "" : 
+          {/* {chords.length === 0 ? "" : 
           <>
             <h4>
               All Chords:
               <span className='mx-3'><MidiPlayer src={"MIDI/all_chords.mid"}/></span>
             </h4>
           </>
-          }
+          }  */}
 
           <div className='row'>
             {/* Chords */}

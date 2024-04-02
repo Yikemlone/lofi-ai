@@ -31,6 +31,14 @@ def predict():
     # Return the detailed chords
     return jsonify(detailed_chords)
 
+@app.route('/midi/<filename>')
+def send_midi(filename):
+    return send_from_directory('midi_files', filename, as_attachment=False, mimetype='audio/midi')
+
+@app.route('/test')
+def test():
+    return "Test"
+
 @app.route('/')
 @cross_origin()
 def serve():
