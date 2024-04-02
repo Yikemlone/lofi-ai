@@ -15,7 +15,7 @@ app.config["FLASK_ENV"] = flask_env
 ai_model = ChordGenerator()
 ai_model.set_up()
 
-@app.route('api/predict', methods=['GET', 'POST'])
+@app.route('/api/predict', methods=['GET', 'POST'])
 @cross_origin()
 def predict():  
     print('Predicting chords...')
