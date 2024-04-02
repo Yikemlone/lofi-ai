@@ -161,7 +161,7 @@ cython_debug/
 
 # Ignore big files
 *weights-improvement*
-MIDI/
+#MIDI/
 MIDI-XML/
 
 # React
