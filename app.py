@@ -32,8 +32,10 @@ def predict():
     return jsonify(detailed_chords)
 
 @app.route('/midi/<filename>')
+@cross_origin()
 def send_midi(filename):
-    return send_from_directory('midi_files', filename, as_attachment=False, mimetype='audio/midi')
+    print('Sending MIDI file...')
+    return send_from_directory('midi', filename, as_attachment=True, mimetype='audio/midi')
 
 @app.route('/test')
 def test():

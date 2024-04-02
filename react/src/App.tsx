@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Chord from './Chord';
 import axios from 'axios'
 import './index.css'
-// import MidiPlayer from 'react-midi-player'
+import MidiPlayer from 'react-midi-player'
 import Nav from './Nav';
 
 interface ChordsJSON {
@@ -44,8 +44,6 @@ function App() {
     <>
       <Nav/>
 
-      {/* ################################################################################# */}
-
       <div className="card shadow rounded mx-auto px-5 py-5" style={{width: '60%'}}>
 
         <label htmlFor="chord-qty" className="form-label my-2">Chord Quantity: {chordQty}</label>
@@ -80,22 +78,20 @@ function App() {
 
       {isBusy ? <div className='mx-auto px-5 py-5 text-center'><h2>Generating chords...</h2></div>: ""}
 
-      {/* ################################################################################# */}
-
       { chords.length === 0 ? '' :  
         <div className='card shadow rounded px-5 py-5 mx-5 my-5'>
 
           {/* Header */}
           {chords.length === 0 ? '' : <h1 className='mb-5'>Chords generated</h1>}
 
-          {/* {chords.length === 0 ? "" : 
+          {chords.length === 0 ? "" : 
           <>
             <h4>
               All Chords:
-              <span className='mx-3'><MidiPlayer src={"MIDI/all_chords.mid"}/></span>
+              <span className='mx-3'><MidiPlayer src={"midi/all_chords.mid"}/></span>
             </h4>
           </>
-          }  */}
+          } 
 
           <div className='row'>
             {/* Chords */}

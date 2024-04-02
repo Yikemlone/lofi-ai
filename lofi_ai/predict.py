@@ -130,10 +130,10 @@ class ChordGenerator:
 
         # Generate a MIDI file for each chord
         for c in output_chords:      
-            formatted_chord_name = c.pitchedCommonName.replace(' ', '_')
+            formatted_chord_name = c.pitchedCommonName.replace(' ', '_').replace('#', '_sharp_')
             midi_stream = stream.Stream([instrument.ElectricGuitar(), c])
-            midi_stream.write('midi', fp=f'react/build/MIDI/{formatted_chord_name}.mid')
-            midi_stream.write('musicxml', fp=f'react/build/MIDI-XML/{formatted_chord_name}.xml')
+            midi_stream.write('midi', fp=f'midi/{formatted_chord_name}.mid')
+            midi_stream.write('musicxml', fp=f'generated_midi/midi_XML/{formatted_chord_name}.xml')
         
         all_chords_output = []
 
@@ -146,7 +146,7 @@ class ChordGenerator:
         # Create all the chords in a single MIDI file
         all_chords_output.insert(0, instrument.ElectricGuitar())  
         midi_stream = stream.Stream(all_chords_output)
-        midi_stream.write('midi', fp='react/public/MIDI/all_chords.mid')
+        midi_stream.write('midi', fp='midi/all_chords.mid') 
 
     def prepare_chords(self, chords):
         """Prepare the chords with extra details for JSON serialization"""

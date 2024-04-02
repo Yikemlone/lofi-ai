@@ -8,21 +8,9 @@ interface Props {
 }
 
 function Chord({ Chord, Notes, Quality, Root } : Props) {
-  const PATH : string= "MIDI/";
-  const formatted_midi : string = PATH + Chord.replace(/ /g, '_') + ".mid";
+  const PATH : string= "midi/";
+  const formatted_midi : string = PATH + Chord.replace(/ /g, '_').replace("#", "_sharp_") + ".mid";
   
-  // const [midiFile, setMidiFile] = useState<string | null>(null);
-
-  // useEffect(() => {
-  //   const formattedChord = Chord.replace(/ /g, '_') + ".mid";
-  //   fetch(`/getMidi/${formattedChord}`)
-  //     .then(response => response.blob())
-  //     .then(blob => {
-  //       const url = URL.createObjectURL(blob);
-  //       setMidiFile(url);
-  //     });
-  // }, []);
-
   return (
     <>
       <div className='col'>
