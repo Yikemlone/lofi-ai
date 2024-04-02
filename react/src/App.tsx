@@ -20,7 +20,7 @@ function App() {
 
   const getChords = async () => {
     setIsBusy(true);
-    axios.get<ChordsJSON[]>(`http://localhost:5000/predict?chord_qty=${chordQty}&user_scale=${chordKey}`)
+    axios.get<ChordsJSON[]>(`http://localhost:5000/api/predict?chord_qty=${chordQty}&user_scale=${chordKey}`)
     .then((response) => {
       setChords(response.data)
       setIsBusy(false);
