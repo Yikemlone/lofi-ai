@@ -1,6 +1,6 @@
 import pickle
 import numpy
-from music21 import instrument, note, stream, chord
+from music21 import instrument, stream, chord
 from keras.models import Sequential
 from keras.layers import Dense, Activation, LSTM, Dropout, Bidirectional, BatchNormalization as BatchNorm
 
@@ -17,7 +17,6 @@ SCALES = {
     'a_minor_scale': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'A']
 }
 
-
 class ChordGenerator:
 
     def __init__(self):
@@ -27,7 +26,6 @@ class ChordGenerator:
         self.network_input = []
         self.normalized_input = []
         self.model = None
-
 
     def load_notes(self):
         with open('lofi_ai/data/chords.bin', 'rb') as filepath:
@@ -133,7 +131,7 @@ class ChordGenerator:
             formatted_chord_name = c.pitchedCommonName.replace(' ', '_').replace('#', '_sharp_')
             midi_stream = stream.Stream([instrument.ElectricGuitar(), c])
             midi_stream.write('midi', fp=f'midi/{formatted_chord_name}.mid')
-            midi_stream.write('musicxml', fp=f'generated_midi/midi_XML/{formatted_chord_name}.xml')
+            midi_stream.write('musicxml', fp=f'midi_XML/{formatted_chord_name}.xml')
         
         all_chords_output = []
 
@@ -147,6 +145,7 @@ class ChordGenerator:
         all_chords_output.insert(0, instrument.ElectricGuitar())  
         midi_stream = stream.Stream(all_chords_output)
         midi_stream.write('midi', fp='midi/all_chords.mid') 
+        midi_stream.write('musicxml', fp=f'midi_XML/all_chords.xml')
 
     def prepare_chords(self, chords):
         """Prepare the chords with extra details for JSON serialization"""

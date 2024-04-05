@@ -2,23 +2,25 @@ import os
 from flask import Flask, request, jsonify, send_from_directory
 from lofi_ai.predict import ChordGenerator
 from flask_cors import CORS, cross_origin
-# from flask import send_file
 from dotenv import load_dotenv
 
+# Initialize the Flask app
 app = Flask(__name__, static_folder='react/build', static_url_path='')
 CORS(app)
 load_dotenv()
 
+# Set the Flask environment
 flask_env = os.getenv('FLASK_ENV')
 app.config["FLASK_ENV"] = flask_env
 
+# Initialize the AI model
 ai_model = ChordGenerator()
 ai_model.set_up()
 
 @app.route('/api/predict', methods=['GET', 'POST'])
 @cross_origin()
 def predict():  
-    print('Predicting chords...')
+    """ Generate chords and return the details to the user as JSON """
     # Get user inputs
     chord_qty = int(request.args.get('chord_qty'))
     user_scale = request.args.get('user_scale')
@@ -34,17 +36,14 @@ def predict():
 @app.route('/midi/<filename>')
 @cross_origin()
 def send_midi(filename):
-    print('Sending MIDI file...')
+    """ Send the MIDI file to the user """
     return send_from_directory('midi', filename, as_attachment=True, mimetype='audio/midi')
-
-@app.route('/test')
-def test():
-    return "Test"
 
 @app.route('/')
 @cross_origin()
 def serve():
+    """ Serve the React app"""
     return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='172.26.136.249', port=5000, debug=False)

@@ -161,8 +161,6 @@ cython_debug/
 
 # Ignore big files
 *weights-improvement*
-#MIDI/
-MIDI-XML/
 
 # React
 node_modules
