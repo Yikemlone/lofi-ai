@@ -46,4 +46,5 @@ def serve():
     return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
+    # Hosted on WSL machine, port forwarding from Windows
     app.run(host='172.26.136.249', port=5000, debug=False)

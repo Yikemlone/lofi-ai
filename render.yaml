@@ -1,2 +1,0 @@
-buildCommand: cd react && npm run build
-publishDir: build

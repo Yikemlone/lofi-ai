@@ -16,21 +16,21 @@
     </scaling>
   </defaults>
   <part-list>
-    <score-part id="P852fa75141e2a0fc2211c56c3deb9ddb">
+    <score-part id="P991c6c8e17027b84cdf71ff4324b7cef">
       <part-name>Electric Guitar</part-name>
       <part-abbreviation>Elec Gtr</part-abbreviation>
-      <score-instrument id="Ib47f65f19fcb229270e810bc731061c4">
+      <score-instrument id="I7c064759672c4f3cd4ea03ae8aa3daa6">
         <instrument-name>Electric Guitar</instrument-name>
         <instrument-abbreviation>Elec Gtr</instrument-abbreviation>
       </score-instrument>
-      <midi-instrument id="Ib47f65f19fcb229270e810bc731061c4">
+      <midi-instrument id="I7c064759672c4f3cd4ea03ae8aa3daa6">
         <midi-channel>1</midi-channel>
         <midi-program>27</midi-program>
       </midi-instrument>
     </score-part>
   </part-list>
   <!--=========================== Part 1 ===========================-->
-  <part id="P852fa75141e2a0fc2211c56c3deb9ddb">
+  <part id="P991c6c8e17027b84cdf71ff4324b7cef">
     <!--========================= Measure 1 ==========================-->
     <measure implicit="no" number="1">
       <attributes>
@@ -46,18 +46,9 @@
       </attributes>
       <note>
         <pitch>
-          <step>B</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>40320</duration>
-        <type>whole</type>
-      </note>
-      <note>
-        <chord />
-        <pitch>
           <step>G</step>
           <alter>1</alter>
-          <octave>5</octave>
+          <octave>4</octave>
         </pitch>
         <duration>40320</duration>
         <type>whole</type>
@@ -66,8 +57,17 @@
       <note>
         <chord />
         <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+      </note>
+      <note>
+        <chord />
+        <pitch>
           <step>E</step>
-          <octave>6</octave>
+          <octave>5</octave>
         </pitch>
         <duration>40320</duration>
         <type>whole</type>
