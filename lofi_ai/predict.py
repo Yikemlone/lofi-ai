@@ -5,17 +5,18 @@ from keras.models import Sequential
 from keras.layers import Dense, Activation, LSTM, Dropout, Bidirectional, BatchNormalization as BatchNorm
 
 SCALES = {
-    'e_major_scale': ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#', 'E'],
-    'c_major_scale': ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C'],
-    'g_major_scale': ['G', 'A', 'B', 'C', 'D', 'E', 'F#', 'G'],
-    'd_major_scale': ['D', 'E', 'F#', 'G', 'A', 'B', 'C#', 'D'],
-    'a_major_scale': ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#', 'A'],
-    'e_minor_scale': ['E', 'F#', 'G', 'A', 'B', 'C', 'D', 'E'],
-    'c_minor_scale': ['C', 'D', 'E-', 'F', 'G', 'A-', 'B-', 'C'],
-    'g_minor_scale': ['G', 'A', 'B-', 'C', 'D', 'E-', 'F', 'G'],
-    'd_minor_scale': ['D', 'E', 'F', 'G', 'A', 'B-', 'C', 'D'],
-    'a_minor_scale': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'A']
+    'e_major_scale': ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#', 'E'], 
+    'a_major_scale': ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#', 'A'], 
+    'd_major_scale': ['D', 'E', 'F#', 'G', 'A', 'B', 'C#', 'D'], 
+    'g_major_scale': ['G', 'A', 'B', 'C', 'D', 'E', 'F#', 'G'], 
+    'c_major_scale': ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C'], 
+    'e_minor_scale': ['E', 'F#', 'G', 'A', 'B', 'C', 'D', 'E'], 
+    'a_minor_scale': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'A'], 
+    'd_minor_scale': ['D', 'E', 'F', 'G', 'A', 'B-', 'C', 'D'], 
+    'g_minor_scale': ['G', 'A', 'B-', 'C', 'D', 'E-', 'F', 'G'], 
+    'c_minor_scale': ['C', 'D', 'E-', 'F', 'G', 'A-', 'B-', 'C'], 
 }
+
 
 class ChordGenerator:
 

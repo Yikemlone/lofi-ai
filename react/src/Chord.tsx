@@ -1,4 +1,6 @@
 import MidiPlayer from 'react-midi-player'
+import Popup from 'reactjs-popup'
+import 'reactjs-popup/dist/index.css'
 
 interface Props {
     Chord: string,
@@ -15,12 +17,21 @@ function Chord({ Chord, Notes, Quality, Root } : Props) {
     <>
       <div className='col'>
       <div className='card mt-3 mx-1 shadow p-3 my-2 rounded' style={{backgroundColor: "#FEEDF0"}}>      
-          <div className="card-body">
-              <h4 className="card-title"><span>{ Quality === "other" ? "" : Quality } { Root } </span></h4>
-              <p className="card-text"> Full Name: { Chord } </p>
-              <p><span className="card-text"> { Notes } </span></p>
+          <div className="card-body mx-auto">
+
+              <h4 className="card-title"> { Quality === "other" ? "" : Quality } { Root } Chord</h4>
               <MidiPlayer src={formatted_midi}/>
-              <a className="btn btn-primary">More Details</a>
+
+              <Popup  trigger={<button className="btn btn-primary">More Details</button>} modal>
+                <div className="px-5 py-5">
+                  <h4 className="card-title">{ Quality === "other" ? "" : Quality } { Root } Chord</h4>
+                  <p className="card-text"> Full Name: { Chord } </p>
+                  <p><span className="card-text"><b>Notes</b> - { Notes }</span></p>
+                  <p><MidiPlayer src={formatted_midi}/></p>
+                  <button className='btn btn-secondary'>Download MIDI</button>
+                </div>
+              </Popup>
+
           </div>
       </div>  
       </div>

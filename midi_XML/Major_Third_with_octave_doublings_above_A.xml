@@ -16,21 +16,21 @@
     </scaling>
   </defaults>
   <part-list>
-    <score-part id="Pdb65a51d286f4f31af269fd86d1a9743">
+    <score-part id="Pb1a4ea4eec3f12cbd4c2098fb343ec1d">
       <part-name>Electric Guitar</part-name>
       <part-abbreviation>Elec Gtr</part-abbreviation>
-      <score-instrument id="I7e43cdc73913cb08a0125bd76d1f2578">
+      <score-instrument id="Ic6c6302672e2c8155456b16173cbb5d9">
         <instrument-name>Electric Guitar</instrument-name>
         <instrument-abbreviation>Elec Gtr</instrument-abbreviation>
       </score-instrument>
-      <midi-instrument id="I7e43cdc73913cb08a0125bd76d1f2578">
+      <midi-instrument id="Ic6c6302672e2c8155456b16173cbb5d9">
         <midi-channel>1</midi-channel>
         <midi-program>27</midi-program>
       </midi-instrument>
     </score-part>
   </part-list>
   <!--=========================== Part 1 ===========================-->
-  <part id="Pdb65a51d286f4f31af269fd86d1a9743">
+  <part id="Pb1a4ea4eec3f12cbd4c2098fb343ec1d">
     <!--========================= Measure 1 ==========================-->
     <measure implicit="no" number="1">
       <attributes>
@@ -40,14 +40,23 @@
           <beat-type>4</beat-type>
         </time>
         <clef>
-          <sign>G</sign>
-          <line>2</line>
+          <sign>F</sign>
+          <line>4</line>
         </clef>
       </attributes>
       <note>
         <pitch>
           <step>A</step>
-          <octave>5</octave>
+          <octave>1</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+      </note>
+      <note>
+        <chord />
+        <pitch>
+          <step>A</step>
+          <octave>2</octave>
         </pitch>
         <duration>40320</duration>
         <type>whole</type>
@@ -57,7 +66,7 @@
         <pitch>
           <step>C</step>
           <alter>1</alter>
-          <octave>6</octave>
+          <octave>3</octave>
         </pitch>
         <duration>40320</duration>
         <type>whole</type>
@@ -67,7 +76,7 @@
         <chord />
         <pitch>
           <step>A</step>
-          <octave>6</octave>
+          <octave>3</octave>
         </pitch>
         <duration>40320</duration>
         <type>whole</type>

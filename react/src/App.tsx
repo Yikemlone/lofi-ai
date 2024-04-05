@@ -12,15 +12,29 @@ interface ChordsJSON {
   root: string
 }
 
+// const scaleImages : any = {
+//   "e_major_scale": 'public/scales/e-major-scale.png',
+//   "a_major_scale": 'Scales/a-major-scale.png',
+//   "d_major_scale": 'Scales/d-major-scale.png',
+//   "g_major_scale": 'Scales/g-major-scale.png',
+//   "c_major_scale": 'Scales/c-major-scale.png',
+//   "e_minor_scale": 'Scales/e-minor-scale.png',
+//   "a_minor_scale": 'Scales/a-minor-scale.png',
+//   "d_minor_scale": 'Scales/d-minor-scale.png',
+//   "g_minor_scale": 'Scales/g-minor-scale.png',
+//   "c_minor_scale": 'Scales/c-minor-scale.png'
+// }
+
 function App() {
   const [chords, setChords] = useState<ChordsJSON[]>([]);
   const [chordQty, setChordQty] = useState(4);
   const [chordKey, setChordKey] = useState('e_major_scale');
   const [isBusy, setIsBusy] = useState(false);
+  const [scaleImage, setScaleImg] = useState("scales/e_major_scale_open.png");
 
   const getChords = async () => {
     setIsBusy(true);
-    axios.get<ChordsJSON[]>(`https://86.45.164.140:5000/api/predict?chord_qty=${chordQty}&user_scale=${chordKey}`)
+    axios.get<ChordsJSON[]>(`http://localhost:5000/api/predict?chord_qty=${chordQty}&user_scale=${chordKey}`)
     .then((response) => {
       setChords(response.data)
       setIsBusy(false);
@@ -38,6 +52,7 @@ function App() {
   const handleChordKeyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const inputValue = (e.target as HTMLSelectElement).value;
     setChordKey(inputValue);
+    setScaleImg(`scales/${inputValue + "_open"}.png`);
   }
 
   return (
@@ -66,11 +81,11 @@ function App() {
             <option value="c_minor_scale">C Minor Scale</option>  
         </select>
 
-        <div className="mx-auto" style={{width: "500px"}}>
-          <img src='g-major-scale.png' className="mx-auto img-fluid w-100"/>
+        <div className="mx-auto pt-3" style={{width: "300px"}}>
+          <img src={scaleImage} style={{width: "300px", height:"400px"}} className="mx-auto img-fluid w-100" alt='Scale'/>
         </div>
 
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center ">
           <button className='btn btn-none border mt-5 px-5'onClick={getChords} disabled={isBusy}>Get chords</button>
         </div>
         
@@ -82,7 +97,7 @@ function App() {
         <div className='card shadow rounded px-5 py-5 mx-5 my-5'>
 
           {/* Header */}
-          {chords.length === 0 ? '' : <h1 className='mb-5'>Chords generated</h1>}
+          {chords.length === 0 ? '' : <h1 className='mb-5 mx-auto'>Chords generated</h1>}
 
           {chords.length === 0 ? "" : 
           <>

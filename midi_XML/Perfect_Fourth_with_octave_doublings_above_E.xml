@@ -16,21 +16,21 @@
     </scaling>
   </defaults>
   <part-list>
-    <score-part id="P5c83477c08f8d38bfa3361429e12ff1c">
+    <score-part id="P3117874ef3ed4895439749e5eed46f3a">
       <part-name>Electric Guitar</part-name>
       <part-abbreviation>Elec Gtr</part-abbreviation>
-      <score-instrument id="I89e54d208769e8240894a25fe78ed685">
+      <score-instrument id="I1cbda76ec428f9ffea0d62c435f95c13">
         <instrument-name>Electric Guitar</instrument-name>
         <instrument-abbreviation>Elec Gtr</instrument-abbreviation>
       </score-instrument>
-      <midi-instrument id="I89e54d208769e8240894a25fe78ed685">
+      <midi-instrument id="I1cbda76ec428f9ffea0d62c435f95c13">
         <midi-channel>1</midi-channel>
         <midi-program>27</midi-program>
       </midi-instrument>
     </score-part>
   </part-list>
   <!--=========================== Part 1 ===========================-->
-  <part id="P5c83477c08f8d38bfa3361429e12ff1c">
+  <part id="P3117874ef3ed4895439749e5eed46f3a">
     <!--========================= Measure 1 ==========================-->
     <measure implicit="no" number="1">
       <attributes>
@@ -42,13 +42,21 @@
         <clef>
           <sign>G</sign>
           <line>2</line>
-          <clef-octave-change>1</clef-octave-change>
         </clef>
       </attributes>
       <note>
         <pitch>
           <step>A</step>
-          <octave>6</octave>
+          <octave>5</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+      </note>
+      <note>
+        <chord />
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
         </pitch>
         <duration>40320</duration>
         <type>whole</type>
@@ -58,15 +66,6 @@
         <pitch>
           <step>E</step>
           <octave>6</octave>
-        </pitch>
-        <duration>40320</duration>
-        <type>whole</type>
-      </note>
-      <note>
-        <chord />
-        <pitch>
-          <step>E</step>
-          <octave>7</octave>
         </pitch>
         <duration>40320</duration>
         <type>whole</type>

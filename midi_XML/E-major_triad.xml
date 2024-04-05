@@ -5,7 +5,7 @@
   <identification>
     <creator type="composer">Music21</creator>
     <encoding>
-      <encoding-date>2024-04-03</encoding-date>
+      <encoding-date>2024-04-05</encoding-date>
       <software>music21 v.9.1.0</software>
     </encoding>
   </identification>
@@ -16,21 +16,21 @@
     </scaling>
   </defaults>
   <part-list>
-    <score-part id="Pac07acc9c5d95be3a6ecb14099961328">
+    <score-part id="P852fa75141e2a0fc2211c56c3deb9ddb">
       <part-name>Electric Guitar</part-name>
       <part-abbreviation>Elec Gtr</part-abbreviation>
-      <score-instrument id="Ifb28dfedf7013da7dba43d012795c4c9">
+      <score-instrument id="Ib47f65f19fcb229270e810bc731061c4">
         <instrument-name>Electric Guitar</instrument-name>
         <instrument-abbreviation>Elec Gtr</instrument-abbreviation>
       </score-instrument>
-      <midi-instrument id="Ifb28dfedf7013da7dba43d012795c4c9">
+      <midi-instrument id="Ib47f65f19fcb229270e810bc731061c4">
         <midi-channel>1</midi-channel>
         <midi-program>27</midi-program>
       </midi-instrument>
     </score-part>
   </part-list>
   <!--=========================== Part 1 ===========================-->
-  <part id="Pac07acc9c5d95be3a6ecb14099961328">
+  <part id="P852fa75141e2a0fc2211c56c3deb9ddb">
     <!--========================= Measure 1 ==========================-->
     <measure implicit="no" number="1">
       <attributes>

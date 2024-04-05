@@ -16,21 +16,21 @@
     </scaling>
   </defaults>
   <part-list>
-    <score-part id="Pbbde7ec48093a5b269db0a5e5fcd49f9">
+    <score-part id="Pca051d586820ae27a7e591354f57e614">
       <part-name>Electric Guitar</part-name>
       <part-abbreviation>Elec Gtr</part-abbreviation>
-      <score-instrument id="Ifbd36ca5e7a3846fdf2d12a3ebf8c045">
+      <score-instrument id="I8f4ccdc0168e2e7048acb9b0f75a20b2">
         <instrument-name>Electric Guitar</instrument-name>
         <instrument-abbreviation>Elec Gtr</instrument-abbreviation>
       </score-instrument>
-      <midi-instrument id="Ifbd36ca5e7a3846fdf2d12a3ebf8c045">
+      <midi-instrument id="I8f4ccdc0168e2e7048acb9b0f75a20b2">
         <midi-channel>1</midi-channel>
         <midi-program>27</midi-program>
       </midi-instrument>
     </score-part>
   </part-list>
   <!--=========================== Part 1 ===========================-->
-  <part id="Pbbde7ec48093a5b269db0a5e5fcd49f9">
+  <part id="Pca051d586820ae27a7e591354f57e614">
     <!--========================= Measure 1 ==========================-->
     <measure implicit="no" number="1">
       <attributes>

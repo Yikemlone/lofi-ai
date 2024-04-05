@@ -16,21 +16,21 @@
     </scaling>
   </defaults>
   <part-list>
-    <score-part id="P89ab5acbf3f7db30c9894b1ce4144cc7">
+    <score-part id="P97d29edcd56cc848de1e2c01f11652e2">
       <part-name>Electric Guitar</part-name>
       <part-abbreviation>Elec Gtr</part-abbreviation>
-      <score-instrument id="Icdf9c58de7b5d11f81704476bec4f21e">
+      <score-instrument id="I3ae023e24e5fd3c4ed6ed3cf7d2a3f08">
         <instrument-name>Electric Guitar</instrument-name>
         <instrument-abbreviation>Elec Gtr</instrument-abbreviation>
       </score-instrument>
-      <midi-instrument id="Icdf9c58de7b5d11f81704476bec4f21e">
+      <midi-instrument id="I3ae023e24e5fd3c4ed6ed3cf7d2a3f08">
         <midi-channel>1</midi-channel>
         <midi-program>27</midi-program>
       </midi-instrument>
     </score-part>
   </part-list>
   <!--=========================== Part 1 ===========================-->
-  <part id="P89ab5acbf3f7db30c9894b1ce4144cc7">
+  <part id="P97d29edcd56cc848de1e2c01f11652e2">
     <!--========================= Measure 1 ==========================-->
     <measure implicit="no" number="1">
       <attributes>
@@ -40,14 +40,14 @@
           <beat-type>4</beat-type>
         </time>
         <clef>
-          <sign>F</sign>
-          <line>4</line>
+          <sign>G</sign>
+          <line>2</line>
         </clef>
       </attributes>
       <note>
         <pitch>
           <step>E</step>
-          <octave>1</octave>
+          <octave>4</octave>
         </pitch>
         <duration>40320</duration>
         <type>whole</type>
@@ -56,7 +56,7 @@
         <chord />
         <pitch>
           <step>E</step>
-          <octave>2</octave>
+          <octave>5</octave>
         </pitch>
         <duration>40320</duration>
         <type>whole</type>
