@@ -17,7 +17,7 @@ interface ChordsJSON {
 function App() {
   const [chords, setChords] = useState<ChordsJSON[]>([]);
   const [chordQty, setChordQty] = useState(4);
-  const [chordKey, setChordKey] = useState('e_major_scale');
+  const [scaleKey, setChordKey] = useState('e_major_scale');
   const [isBusy, setIsBusy] = useState(false);
   const [scaleImage, setScaleImg] = useState("scales/e_major_scale_open.png");
   const [instrument, setInstrument] = useState("electric_guitar");
@@ -30,7 +30,7 @@ function App() {
     });
 
     setIsBusy(true);
-    axios.get<ChordsJSON[]>(`/api/predict?chord_qty=${chordQty}&user_scale=${chordKey}&instrument=${instrument}`)
+    axios.get<ChordsJSON[]>(`/api/predict?chord_qty=${chordQty}&user_scale=${scaleKey}&instrument=${instrument}`)
     .then((response) => {
       setChords(response.data)
       setIsBusy(false);
@@ -116,7 +116,7 @@ function App() {
             {/* Chords */}
             {chords.map((chord: ChordsJSON, index: number) => (
               <Chord key={index} Chord={chord.chord} Root={chord.root} Quality={chord.quality} 
-                Notes={chord.notes} />
+                Notes={chord.notes} Scale={scaleKey} />
             ))}
           </div>
         </div>

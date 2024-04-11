@@ -48,4 +48,6 @@ def serve():
 
 if __name__ == '__main__':
     # Hosted on WSL machine, port forwarding from Windows
-    app.run(host='172.26.136.249', port=5000, debug=False)
+    # 172.26.136.249 is the WSL machine's IP address
+    # Using all networks for deployment flexibility
+    app.run(host='0.0.0.0', port=5000, debug=False)
