@@ -24,10 +24,11 @@ def predict():
     # Get user inputs
     chord_qty = int(request.args.get('chord_qty'))
     user_scale = request.args.get('user_scale')
+    instrument = request.args.get('instrument')
     # Generate chords
     chords = ai_model.generate_chords(chord_qty, user_scale)
     # Create MIDI files
-    ai_model.create_midi(chords)
+    ai_model.create_midi(chords, instrument)
     # Prepare detailed chords
     detailed_chords = ai_model.prepare_chords(chords)
     # Return the detailed chords

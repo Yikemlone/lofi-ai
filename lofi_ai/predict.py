@@ -116,12 +116,20 @@ class ChordGenerator:
         
         return chords
     
-    def create_midi(self, chords):
+    def create_midi(self, chords, user_instrument):
         """ Convert the output from the prediction to notes and create a midi file
             from the notes """
         offset = 0
         output_chords = []
         chord_durration = 'whole'
+        chosen_instrument = instrument.AcousticGuitar()
+        
+        if user_instrument == "electric_guitar":
+            chosen_instrument = instrument.ElectricGuitar()
+        elif user_instrument == "guitar":
+            chosen_instrument = instrument.AcousticGuitar()
+        elif user_instrument == "secret":
+            chosen_instrument = instrument.Kalimba()
         
         for c in chords:
             c.duration.type = chord_durration
@@ -130,7 +138,7 @@ class ChordGenerator:
         # Generate a MIDI file for each chord
         for c in output_chords:      
             formatted_chord_name = c.pitchedCommonName.replace(' ', '_').replace('#', '_sharp_')
-            midi_stream = stream.Stream([instrument.ElectricGuitar(), c])
+            midi_stream = stream.Stream([chosen_instrument, c])
             midi_stream.write('midi', fp=f'midi/{formatted_chord_name}.mid')
             midi_stream.write('musicxml', fp=f'midi_XML/{formatted_chord_name}.xml')
         
@@ -143,7 +151,7 @@ class ChordGenerator:
             offset += 4
 
         # Create all the chords in a single MIDI file
-        all_chords_output.insert(0, instrument.ElectricGuitar())  
+        all_chords_output.insert(0, chosen_instrument)  
         midi_stream = stream.Stream(all_chords_output)
         midi_stream.write('midi', fp='midi/all_chords.mid') 
         midi_stream.write('musicxml', fp=f'midi_XML/all_chords.xml')
