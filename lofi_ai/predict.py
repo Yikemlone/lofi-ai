@@ -129,7 +129,7 @@ class ChordGenerator:
         elif user_instrument == "guitar":
             chosen_instrument = instrument.AcousticGuitar()
         elif user_instrument == "secret":
-            chosen_instrument = instrument.Kalimba()
+            chosen_instrument = instrument.Ocarina()
         
         for c in chords:
             c.duration.type = chord_durration
