@@ -20,7 +20,7 @@ function App() {
   const [scaleKey, setChordKey] = useState('e_major_scale');
   const [isBusy, setIsBusy] = useState(false);
   const [scaleImage, setScaleImg] = useState("scales/e_major_scale_open.png");
-  const [instrument, setInstrument] = useState("electric_guitar");
+  const [instrument, setInstrument] = useState("guitar");
   
   const getChords = async () => {
     scroller.scrollTo('generatingChords', {
@@ -69,8 +69,8 @@ function App() {
         <label htmlFor="instrument" className="form-label my-2">Select Instrument</label>
         <select className="form-select my-2" id="instrument"
           aria-label="Instrument" onChange={(e) => handleInstrumentChange(e)}>
-            <option value={"electric_guitar"}>Electric Guitar</option>
-            <option value="guitar">Guitar</option>
+            <option value={"guitar"}>Guitar</option>
+            <option value="electric_guitar">Electric Guitar</option>
             <option value="secret">Secret</option>
         </select>
         <label htmlFor="chord-key" className="form-label my-2">Select Chord Scale</label>

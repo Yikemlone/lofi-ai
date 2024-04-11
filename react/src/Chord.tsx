@@ -60,10 +60,10 @@ function Chord({ Chord, Notes, Quality, Root, Scale} : Props) {
                     <button className="btn btn-outline-primary mx-1" onClick={() => setOpenNotes(true)}>?</button>
                     <Popup open={openNotes} closeOnDocumentClick={false} onClose={() => setOpenNotes(false)} modal>
                       <div className="mx-5 px-5 py-5">
-                        <p>This chord is in the key of <b style={{fontWeight:"bolder"}}>{formatted_scale}</b> because all of the notes are within the scale.</p>
-                        <p>The {formatted_scale} contains all these notes:</p> 
+                        <p>This chord belongs to the key of {formatted_scale} because all its notes are within this scale.</p>
+                        <p>The {formatted_scale} comprises the following notes:</p> 
                         <p>{(SCALES as any)[Scale].join(' ')}</p>
-                        <p>These are the notes in the chord: {Notes}</p>
+                        <p>Here are the notes in the chord: {Notes}</p>
                         <button onClick={() => setOpenNotes(false)} className="btn btn-danger mx-1">Close</button>
                       </div>
                     </Popup>
