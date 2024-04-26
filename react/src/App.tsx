@@ -16,11 +16,13 @@ interface ChordsJSON {
 
 function App() {
   const [chords, setChords] = useState<ChordsJSON[]>([]);
+
   const [chordQty, setChordQty] = useState(4);
   const [scaleKey, setChordKey] = useState('e_major_scale');
+  const [instrument, setInstrument] = useState("guitar");
+
   const [isBusy, setIsBusy] = useState(false);
   const [scaleImage, setScaleImg] = useState("scales/e_major_scale_open.png");
-  const [instrument, setInstrument] = useState("guitar");
   
   const getChords = async () => {
     scroller.scrollTo('generatingChords', {

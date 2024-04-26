@@ -1,12 +1,14 @@
 """ This file contains the LSTM model for the lofi-ai project with data preparation and training functions"""
 import glob
 import pickle
+from matplotlib import pyplot as plt
 import numpy
 from music21 import converter, instrument, chord
 from keras.models import Sequential
 from keras.layers import Dense, Activation, LSTM, Dropout, Bidirectional, BatchNormalization as BatchNorm
 from keras.callbacks import ModelCheckpoint
 from keras.utils import to_categorical
+from keras.utils import plot_model
 
 def prepare_data():
     """ Parses all chords from MIDI files and writes them to a binary file"""    
@@ -59,54 +61,71 @@ def prepare_sequences(chords, number_of_chords):
 def create_network(network_input, number_of_chords):
     """ Create the structure of the neural network """
     model = Sequential()  # Create a sequential model
-
     # Add a bidirectional LSTM layer with 512 units
     model.add(Bidirectional(LSTM(
         512, # Number of units/nodes per layer
         input_shape=(network_input.shape[1], network_input.shape[2]), # Shape of the input data
         return_sequences=True # Return output to the next layer
     )))
-
     # Add another bidirectional LSTM layer with 512 units 
     model.add(Bidirectional(LSTM(512, return_sequences=True)))
-
     # Add a bidirectional LSTM layer with 512 units
     # This layer does not have return_sequences=True, so it will output a single vector
     model.add(Bidirectional(LSTM(512)))
     model.add(BatchNorm())  # Add a batch normalization layer
     model.add(Dropout(0.3))  # Add a dropout layer with a dropout rate of 30%
-
     model.add(Dense(256))  # Add a fully connected dense layer with 256 units
     model.add(BatchNorm())  # Add another batch normalization layer
     model.add(Dropout(0.3))  # Add another dropout layer with a dropout rate of 30%
-
     model.add(Dense(number_of_chords))  # Add a fully connected dense layer with n_vocab units
     model.add(Activation('softmax'))  # Add a softmax activation function
-
-    model.compile(loss='categorical_crossentropy', optimizer='rmsprop') 
+    model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
 
     return model
 
 def train(model, intput, output):
     """ Train the neural network """
     # Filepath were the weights will be saved
-    filepath = "lofi_ai/weights/weights-improvement-{epoch:02d}-{loss:.4f}-bigger.hdf5"
+    filepath = "lofi_ai/weights/weights-improvement-{epoch:02d}-{loss:.4f}-{accuracy:.4f}.keras"
 
     # Checkpoint to save the best weights
     checkpoint = ModelCheckpoint(
         filepath,
-        monitor='loss',
+        monitor='accuracy',
         verbose=0,
         save_best_only=True,
-        mode='min'
+        mode='max'
     )
 
     # List of callbacks to be used in the training
     callbacks_list = [checkpoint]
 
-    # Train the model
-    model.fit(intput, output, epochs=400, batch_size=64, callbacks=callbacks_list) 
+    history = model.fit(intput, output, epochs=400, batch_size=128, callbacks=callbacks_list) 
     # Changed size of network because of memory issues. Was 128 before
+
+    # Plot training & validation accuracy values
+    plt.figure(figsize=(12, 4))
+    plt.subplot(1, 2, 1)
+    plt.plot(history.history['accuracy'])
+    plt.title('Model accuracy')
+    plt.ylabel('Accuracy')
+    plt.xlabel('Epoch')
+    plt.legend(['Train'], loc='upper left')
+
+    # Plot training & validation loss values
+    plt.subplot(1, 2, 2)
+    plt.plot(history.history['loss'])
+    plt.title('Model loss')
+    plt.ylabel('Loss')
+    plt.xlabel('Epoch')
+    plt.legend(['Train'], loc='upper left')
+
+    plt.tight_layout()
+    plt.savefig('lofi_ai/training_plot.png')  # Save the plot as a PNG file
+    plt.show()
+
+    print(model.evaluate(intput, output))
+    plot_model(model, to_file='lofi_ai/model.png', show_shapes=True, show_layer_names=True)
 
 def train_network():  
     """ Prepare data, sequences and train the network"""

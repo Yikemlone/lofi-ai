@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 # Initialize the Flask app
 app = Flask(__name__, static_folder='react/build', static_url_path='')
+
 CORS(app)
 load_dotenv()
 

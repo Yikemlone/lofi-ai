@@ -160,7 +160,7 @@ cython_debug/
 #.idea/
 
 # Ignore big files
-*weights-improvement*
+*weights*
 
 # React
 node_modules
